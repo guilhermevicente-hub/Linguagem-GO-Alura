@@ -3,7 +3,7 @@ package main
 import "fmt"
 import "os"
 
-func main() {
+func main() { 
 
 	exibeIntroducao()
 	exibeMenu()
