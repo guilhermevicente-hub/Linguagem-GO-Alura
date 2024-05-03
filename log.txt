@@ -1,0 +1,9 @@
+03/05/2024 16:26:14 - https://httpbin.org/status/200online: true
+03/05/2024 16:26:15 - https://alura.com.bronline: true
+03/05/2024 16:26:15 - https://httpbin.org/status/404online: false
+03/05/2024 16:26:20 - https://httpbin.org/status/200online: true
+03/05/2024 16:26:20 - https://alura.com.bronline: true
+03/05/2024 16:26:20 - https://httpbin.org/status/404online: false
+03/05/2024 16:26:25 - https://httpbin.org/status/200online: true
+03/05/2024 16:26:25 - https://alura.com.bronline: true
+03/05/2024 16:26:26 - https://httpbin.org/status/404online: false
