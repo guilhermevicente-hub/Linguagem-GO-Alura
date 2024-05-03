@@ -1,9 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -14,6 +17,7 @@ const delay = 5
 func main() {
 
 	exibeIntroducao()
+	lerSitesArquivo()
 
 	for {
 
@@ -41,6 +45,7 @@ func exibeIntroducao() {
 	versao := 1.1
 	fmt.Println("Olá, sr", nome)
 	fmt.Println("Este programa está na versão", versao)
+	fmt.Println("")
 }
 
 func lerComando() int {
@@ -60,15 +65,16 @@ func exibeMenu() {
 
 func iniciarMonitoramento() {
 	fmt.Println("Monitorando...")
-	sites := [] string {"https://httpbin.org/status/200", "https://alura.com.br", "https://httpbin.org/status/404"}
+	//sites := [] string {"https://httpbin.org/status/200", "https://alura.com.br", "https://httpbin.org/status/404"}
 
-	for i := 0; i < monitoramentos ; i++{
-		for i, site := range sites{
+	sites := lerSitesArquivo()
+
+	for i := 0; i < monitoramentos; i++ {
+		for i, site := range sites {
 			fmt.Println("Testando site", i, ":", site)
 			testaSites(site)
 		}
 		time.Sleep(delay * time.Second)
-		fmt.Println("")
 	}
 
 	fmt.Println("")
@@ -76,12 +82,46 @@ func iniciarMonitoramento() {
 }
 
 func testaSites(site string) {
-	
-	resp, _ := http.Get(site)
+
+	resp, err := http.Get(site)
+
+	if err != nil {
+		fmt.Printf("Ocorreu um erro", err)
+	}
 
 	if resp.StatusCode == 200 {
 		fmt.Println("Site:", site, "foi carregado com sucesso!")
+		fmt.Println("")
 	} else {
 		fmt.Println("Site:", site, "esta com problemas. Status Code:", resp.StatusCode)
+		fmt.Println("")
 	}
+}
+
+func lerSitesArquivo() []string {
+	var sites []string
+
+	arquivo, err := os.Open("sites.txt")
+
+	if err != nil {
+		fmt.Println("Ocorreu um erro", err)
+	}
+
+	leitor := bufio.NewReader(arquivo)
+
+	for {
+
+		linha, err := leitor.ReadString('\n')
+		linha = strings.TrimSpace(linha)
+		
+		sites = append(sites, linha)
+
+		if err == io.EOF {
+			break
+		}
+	}
+
+	arquivo.Close()
+
+	return sites
 }
